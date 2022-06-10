@@ -1,102 +1,137 @@
-" Search recursively downward from CWD; provides TAB completion for filenames
-" e.g., `:find vim* <TAB>`
-set path+=**
+runtime '/pyright'
+" Fundamentals "{{
+" ---------------------------------------------------------------------
 
-" number of lines at the beginning and end of files checked for file-specific vars
-set modelines=0
+" init autocmd
+autocmd!
+" set script encoding
+scriptencoding utf-8
+" stop loading config if it's on tiny or small
+if !1 | finish | endif
 
-" reload files changed outside of Vim not currently modified in Vim (needs below)
-set autoread
-
-" http://stackoverflow.com/questions/2490227/how-does-vims-autoread-work#20418591
-au FocusGained,BufEnter * :silent! !
-
-" use Unicode
-set encoding=utf-8
-
-" errors flash screen rather than emit beep
-set visualbell
-
-" make Backspace work like Delete
-set backspace=indent,eol,start
-
-" don't create `filename~` backups
-set nobackup
-
-" don't create temp files
-set noswapfile
-
-" line numbers and distances 
+set nocompatible
 set number
-
-" number of lines offset when jumping
-set scrolloff=2
-
-" Tab key enters 2 spaces
-" To enter a TAB character when `expandtab` is in effect,
-" CTRL-v-TAB
-set expandtab tabstop=2 shiftwidth=2 softtabstop=2 
-
-" Indent new line the same as the preceding line
+syntax enable
+set fileencodings=utf-8,sjis,euc-jp,latin
+set encoding=utf-8
+set title
 set autoindent
+set background=dark
+set nobackup
+set hlsearch
+set showcmd
+set cmdheight=1
+set laststatus=2
+set scrolloff=10
+set expandtab
+"let loaded_matchparen = 1
+set shell=fish
+set backupskip=/tmp/*,/private/tmp/*
 
-" statusline indicates insert or normal mode
-set showmode showcmd
-
-" make scrolling and painting fast
-" ttyfast kept for vim compatibility but not needed for nvim
-set ttyfast lazyredraw
-
-" highlight matching parens, braces, brackets, etc
-" set showmatch
-
-" http://vim.wikia.com/wiki/Searching
-set hlsearch incsearch ignorecase smartcase
-
-" As opposed to `wrap`
-"set nowrap
-
-" http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
-set autochdir
-
-" open new buffers without saving current modifications (buffer remains open)
-set hidden
-
-" http://stackoverflow.com/questions/9511253/how-to-effectively-use-vim-wildmenu
-set wildmenu wildmode=list:longest,full
-
-" StatusLine always visible, display full path
-" http://learnvimscriptthehardway.stevelosh.com/chapters/17.html
-set laststatus=2 statusline=%F
-
-" Use system clipboard
-" http://vim.wikia.com/wiki/Accessing_the_system_clipboard
-" for linux
-"set clipboard=unnamedplus
-" for macOS
-set clipboard=unnamed
-
-" Folding
-" https://vim.fandom.com/wiki/Folding
-" https://vim.fandom.com/wiki/All_folds_open_when_opening_a_file
-" https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
-set foldmethod=indent
-set foldnestmax=1
-set foldlevelstart=1
-
-" netrw and vim-vinegar
-let g:netrw_browse_split = 3
-
-
-if has("nvim")
-  let g:plug_home = stdpath('data') . '/plugged'
+" incremental substitution (neovim)
+if has('nvim')
+  set inccommand=split
 endif
 
-call plug#begin()
+" Suppress appending <PasteStart> and <PasteEnd> when pasting
+set t_BE=
 
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-Plug 'cohama/lexima.vim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
-call plug#end()
+set nosc noru nosm
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+"set showmatch
+" How many tenths of a second to blink when matching brackets
+"set mat=2
+" Ignore case when searching
+set ignorecase
+" Be smart when using tabs ;)
+set smarttab
+" indents
+filetype plugin indent on
+set shiftwidth=2
+set tabstop=2
+set ai "Auto indent
+set si "Smart indent
+set nowrap "No Wrap lines
+set backspace=start,eol,indent
+" Finding files - Search down into subfolders
+set path+=**
+set wildignore+=*/node_modules/*
+
+" Turn off paste mode when leaving insert
+autocmd InsertLeave * set nopaste
+
+" Add asterisks in block comments
+set formatoptions+=r
+
+"}}}
+
+" Highlights "{{{
+" ---------------------------------------------------------------------
+set cursorline
+"set cursorcolumn
+
+" Set cursor line color on visual mode
+highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
+
+highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
+
+augroup BgHighlight
+  autocmd!
+  autocmd WinEnter * set cul
+  autocmd WinLeave * set nocul
+augroup END
+
+if &term =~ "screen"
+  autocmd BufEnter * if bufname("") !~ "^?[A-Za-z0-9?]*://" | silent! exe '!echo -n "\ek[`hostname`:`basename $PWD`/`basename %`]\e\\"' | endif
+  autocmd VimLeave * silent!  exe '!echo -n "\ek[`hostname`:`basename $PWD`]\e\\"'
+endif
+
+"}}}
+
+" File types "{{{
+" ---------------------------------------------------------------------
+
+set suffixesadd=.js,.es,.jsx,.json,.css,.less,.sass,.styl,.php,.py,.md
+
+"}}}
+
+" Imports "{{{
+" ---------------------------------------------------------------------
+runtime ./plug.vim
+if has("unix")
+  let s:uname = system("uname -s")
+  " Do Mac stuff
+  if s:uname == "Darwin\n"
+    runtime ./macos.vim
+  endif
+endif
+
+runtime ./maps.vim
+"}}}
+
+" Syntax theme "{{{
+" ---------------------------------------------------------------------
+
+" true color
+if exists("&termguicolors") && exists("&winblend")
+  syntax enable
+  set termguicolors
+  set winblend=0
+  set wildoptions=pum
+  set pumblend=5
+  set background=dark
+  " Use NeoSolarized
+  let g:neosolarized_termtrans=1
+  runtime ./colors/NeoSolarized.vim
+  colorscheme NeoSolarized
+endif
+
+"}}}
+
+" Extras "{{{
+" ---------------------------------------------------------------------
+set exrc
+"}}}
+
+" vim: set foldmethod=marker foldlevel=0:
