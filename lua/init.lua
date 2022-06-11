@@ -15,7 +15,7 @@ require('packer').startup(function(use)
   {'dart-lang/dart-vim-plugin'},
 
   -- General
-  {'windwp/nvim-autopairs'},
+  {'cohama/lexima.vim'},
   }
 
   -- LSP
@@ -40,6 +40,7 @@ require('packer').startup(function(use)
     }
   }
  end)
+
 
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
