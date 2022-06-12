@@ -5,6 +5,7 @@ require('packer').startup(function(use)
 
   -- Colorscheme
   {'iCyMind/NeoSolarized'},
+  {'challenger-deep-theme/vim'},
 
   -- Git stuff
   {'tpope/vim-fugitive'},
@@ -16,6 +17,7 @@ require('packer').startup(function(use)
 
   -- General
   {'cohama/lexima.vim'},
+  {'tpope/vim-commentary'}
   }
 
   -- LSP
@@ -42,9 +44,9 @@ require('packer').startup(function(use)
  end)
 
 
-local lsp = require('lsp-zero')
-lsp.preset('recommended')
-lsp.setup()
+-- local lsp = require('lsp-zero')
+-- lsp.preset('recommended')
+-- lsp.setup()
 
 
 
