@@ -15,7 +15,7 @@ All the commands come with lsp-zero OOB
 All you have to do is install some lsp servers
 It should ask you to install new LSP next time you open a file
 
-
+```
 brew install nvim
 ```
 ```
