@@ -10,6 +10,7 @@ require('packer').startup(function(use)
   -- Git stuff
   {'tpope/vim-fugitive'},
   {'tpope/vim-rhubarb'},
+  {'airblade/vim-gitgutter'},
 
   -- Flutter
   {'thosakwe/vim-flutter'},
@@ -17,7 +18,7 @@ require('packer').startup(function(use)
 
   -- General
   {'cohama/lexima.vim'},
-  {'tpope/vim-commentary'}
+  {'tpope/vim-commentary'},
   }
 
   -- LSP
