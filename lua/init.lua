@@ -19,6 +19,11 @@ require('packer').startup(function(use)
   -- General
   {'cohama/lexima.vim'},
   {'tpope/vim-commentary'},
+
+  -- Fuzzy Finder
+  {'nvim-telescope/telescope.nvim',
+  requires = {{'nvim-lua/plenary.nvim'}}}
+
   }
 
   -- LSP
