@@ -19,10 +19,11 @@ require('packer').startup(function(use)
   -- General
   {'cohama/lexima.vim'},
   {'tpope/vim-commentary'},
-
+  {'nvim-treesitter/nvim-treesitter'},
   -- Fuzzy Finder
   {'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/plenary.nvim'}}}
+  requires = {{'nvim-lua/plenary.nvim'}}},
+  {'BurntSushi/ripgrep'},
 
   }
 
