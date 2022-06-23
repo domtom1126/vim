@@ -13,7 +13,8 @@ require('packer').startup(function(use)
   {'airblade/vim-gitgutter'},
 
   -- Flutter
-  {'thosakwe/vim-flutter'},
+  -- {'thosakwe/vim-flutter'},
+  {'akinsho/flutter-tools.nvim'},
   {'dart-lang/dart-vim-plugin'},
 
   -- General
