@@ -4,9 +4,8 @@ autocmd!
 " Script encoding
 scriptencoding utf-8
 
-" Stop loading config if its on tiny or small
-if !1 | finish | endif
 
+" General
 set number
 set scrolloff=10
 set laststatus=2
@@ -42,6 +41,13 @@ set backspace=start,eol,indent
 " Finding files - Search down into subfolders
 set path+=**
 
+" Panes
+" ctrl-j ctrl-k to go through panes
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Highlights
 set cursorline
 "set cursorcolumn
@@ -74,7 +80,7 @@ if exists("&termguicolors") && exists("&winblend")
   " Use NeoSolarized
   " let g:neosolarized_termtrans=1
   " runtime ./colors/OneDark.vim
-  colorscheme challenger_deep
+  colorscheme VimAtomDark
 endif
 
 " Cursor Color 
