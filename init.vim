@@ -68,6 +68,9 @@ if &term =~ "screen"
   autocmd VimLeave * silent!  exe '!echo -n "\ek[`hostname`:`basename $PWD`]\e\\"'
 endif
 
+" Dart/Flutter 
+let g:lsc_server_commands = {'dart': 'dart_language_server'}
+
 " Syntax stuff
 
 if exists("&termguicolors") && exists("&winblend")
